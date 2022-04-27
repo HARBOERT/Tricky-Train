@@ -251,7 +251,7 @@
 	}
 
 	if (browser) {
-		setInterval(update, 1000);
+		setInterval(update, 400);
 	}
 
 	draw_board();

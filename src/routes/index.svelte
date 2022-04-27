@@ -1,4 +1,4 @@
-<h1>Tricky Train!</h1>
+<h1>Tricky Train</h1>
 <a href="/game"><img class="bild" src="Flagge.jpg" alt=""></a>
 
 <style>
