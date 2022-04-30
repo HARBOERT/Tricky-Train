@@ -1,8 +1,17 @@
-<h1>Tricky Train</h1>
-<a href="/game"><img class="bild" src="Flagge.jpg" alt=""></a>
+
+<div class="main">
+    <a href="/game"><img class="bild" src="TrickyTrainHeadlineDoneGiF.gif" alt=""></a>
+</div>
 
 <style>
-    .bild {
-        width: 100%;
+
+.main {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+.bild {
+        width: 100vmin;
+        background-image: url('Fingselvemadebackground.png');
     }
 </style>

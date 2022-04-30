@@ -27,7 +27,8 @@
 		type: 'straight' | 'up' | 'down';
 	}
 
-	let lastKey = '';
+	let score = 0
+	let highScore = undefined
 
 	let snakePosition: position = {
 		x: 2,
@@ -153,6 +154,7 @@
 			if (chosenLook !== undefined) {
 				trainLooks.push(chosenLook);
 			}
+			score += 1
 		}
 	}
 
@@ -167,6 +169,7 @@
 		foodPosition = getRandomPosition();
 		draw_board();
 		gameIsRunning = false;
+		score = 0;
 	}
 
 	function moveSnake() {
@@ -242,7 +245,6 @@
 			} else if (key === ' ') {
 				toggleGame();
 			}
-			lastKey = key;
 		}
 	}
 
@@ -267,6 +269,8 @@
 		}
 	}
 
+
+
 	if (browser) {
 		setInterval(update, 350);
 	}
@@ -277,6 +281,7 @@
 <svelte:window on:keydown={keypress} />
 
 <div class="main">
+	<div class="score">Score: {score}     </div>
 	<div class="game-board">
 		{#each grid as row}
 			<div class="row">
@@ -322,8 +327,10 @@
 		flex-direction: column;
 		width: 100vmin;
 		height: 100vmin;
-		background-color: yellowgreen;
+		background-image: url("Fingselvemadebackground.png");
 		justify-content: space-evenly;
+		background-size: 100%;
+
 	}
 
 	.row {
@@ -336,6 +343,9 @@
 		display: flex;
 		justify-content: center;
 		align-items: flex-end;
+		background-image: url('UntitlesSchiene1.png');
+		image-rendering: pixelated;
+		background-size: 100%;
 	}
 
 	img {
@@ -346,7 +356,7 @@
 		position: relative;
 		display: flex;
 		justify-content: center;
-		background-color: rgb(0, 0, 0);
+		background-color: black;
 	}
 
 	.youwintext {
@@ -375,5 +385,16 @@
 
 	.cornerDownFlipped {
 		transform: rotate(-45deg);
+	}
+
+	.score {
+		font-size: 96px;
+		padding: 20px;
+		height: fit-content;
+		color: #FEAE34;
+		background-color: #262B44;
+		border-radius: 10px;
+		border: 5px solid #6F5F5F;
+		font-family: 'Press Start 2P', cursive;
 	}
 </style>
