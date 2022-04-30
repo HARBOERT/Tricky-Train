@@ -8,10 +8,10 @@
 .main {
     display: flex;
     justify-content: center;
-    background-color: white;
+    background-color: black;
 }
 .bild {
         width: 100vmin;
-        background-image: url('Fingselvemadebackground.png');
+        background-image: url("Fingselvemadebackground.png");
     }
 </style>
