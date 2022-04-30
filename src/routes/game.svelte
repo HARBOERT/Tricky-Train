@@ -27,7 +27,7 @@
 		type: 'straight' | 'up' | 'down';
 	}
 
-	let score = 0
+	let score = 1
 	let highScore = undefined
 
 	let snakePosition: position = {
@@ -37,7 +37,7 @@
 	let lastSnakeRotation: rotation = 0;
 	let snake_rotation: rotation = 0;
 
-	let snakeLength = 0; //
+	let snakeLength = 0; 
 
 	let snakeTail: tail[] = [];
 	let grid: element_type[][];
@@ -296,7 +296,7 @@
 						{:else if element.type == 'body'}
 							<img src={`/${element.metadata}.png`} alt="===" />
 						{:else if element.type == 'food'}
-							<img src="/WagenFragezeichen.png" alt="===" />
+							<img src="/FragezeichenAnhängerDone.png" alt="===" />
 						{:else if element.type == 'cornerUp' && element.rotation == 180}
 							<img class="cornerUpFlipped" src={`/${element.metadata}.png`} alt="_|" />
 						{:else if element.type == 'cornerDown' && element.rotation == 180}
