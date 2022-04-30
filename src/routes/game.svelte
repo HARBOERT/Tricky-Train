@@ -343,7 +343,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: flex-end;
-		background-image: url('UntitlesSchiene1.png');
+		background-image: url("UntitlesSchiene1.png");
 		image-rendering: pixelated;
 		background-size: 100%;
 	}
