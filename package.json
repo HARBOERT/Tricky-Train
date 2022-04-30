@@ -25,6 +25,8 @@
   },
   "type": "module",
   "dependencies": {
-    "functional-utilities": "^1.14.1"
+    "@types/lodash-es": "^4.17.6",
+    "functional-utilities": "^1.14.1",
+    "lodash-es": "^4.17.21"
   }
 }

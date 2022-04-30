@@ -3,12 +3,15 @@
 
 	import { range } from 'functional-utilities';
 
-	const x_width = 11;
-	const y_width = 11;
+	import { sample } from 'lodash-es';
+
+	const x_width = 10;
+	const y_width = 10;
 
 	interface element_type {
 		type: 'body' | 'head' | 'food' | 'empty' | 'cornerUp' | 'cornerDown';
 		rotation: rotation;
+		metadata: string;
 	}
 
 	interface position {
@@ -38,6 +41,14 @@
 	let snakeTail: tail[] = [];
 	let grid: element_type[][];
 
+	const possibleTrainLooks = [
+		'GmbH-und-CoKGanhängerdone',
+		'HWanhängerDone',
+		'LJanhängerDone',
+		'MoneyanhängerDone'
+	];
+	const trainLooks: typeof possibleTrainLooks[number][] = [];
+
 	clear_board();
 
 	function getRandomPosition(): position {
@@ -57,7 +68,8 @@
 		grid = range(0, x_width).map(() =>
 			range(0, y_width).map(() => ({
 				type: 'empty',
-				rotation: 0
+				rotation: 0,
+				metadata: ''
 			}))
 		);
 	}
@@ -66,17 +78,20 @@
 		clear_board();
 		grid[snakePosition.y][snakePosition.x] = {
 			type: 'head',
-			rotation: snake_rotation
+			rotation: snake_rotation,
+			metadata: ''
 		};
-		for (const tail of snakeTail) {
+		for (const [index, tail] of snakeTail.entries()) {
 			grid[tail.position.y][tail.position.x] = {
 				type: tail.type === 'straight' ? 'body' : tail.type === 'up' ? 'cornerUp' : 'cornerDown',
-				rotation: tail.rotation
+				rotation: tail.rotation,
+				metadata: trainLooks[index]
 			};
 		}
 		grid[foodPosition.y][foodPosition.x] = {
 			type: 'food',
-			rotation: 0
+			rotation: 0,
+			metadata: ''
 		};
 	}
 
@@ -119,7 +134,6 @@
 				type: 'up'
 			});
 		}
-
 		if (snakeTail.length > snakeLength) {
 			snakeTail.shift();
 		}
@@ -135,6 +149,10 @@
 		if (snakePosition.x === foodPosition.x && snakePosition.y === foodPosition.y) {
 			snakeLength += 1;
 			foodPosition = getRandomPosition();
+			const chosenLook = sample(possibleTrainLooks);
+			if (chosenLook !== undefined) {
+				trainLooks.push(chosenLook);
+			}
 		}
 	}
 
@@ -195,11 +213,10 @@
 	}
 
 	let hasWon = false;
-
-	let keyLock = false;
+	const moveList: rotation[] = [];
 	function update() {
-		keyLock = false;
 		if (gameIsRunning == true) {
+			turnSnake();
 			updateTail();
 			moveSnake();
 			collectFood();
@@ -213,28 +230,20 @@
 	}
 	function keypress(event: KeyboardEvent) {
 		const key = event.key;
-		if (!keyLock) {
+		if (moveList.length < 3) {
 			if ((key === 'w' || key === 'ArrowUp') && snake_rotation !== 90) {
-				lastSnakeRotation = snake_rotation;
-				snake_rotation = 270;
-				keyLock = true;
+				moveList.push(270);
 			} else if ((key === 's' || key === 'ArrowDown') && snake_rotation !== 270) {
-				lastSnakeRotation = snake_rotation;
-				snake_rotation = 90;
-				keyLock = true;
+				moveList.push(90);
 			} else if ((key === 'd' || key === 'ArrowRight') && snake_rotation !== 180) {
-				lastSnakeRotation = snake_rotation;
-				snake_rotation = 0;
-				keyLock = true;
+				moveList.push(0);
 			} else if ((key === 'a' || key === 'ArrowLeft') && snake_rotation !== 0) {
-				lastSnakeRotation = snake_rotation;
-				snake_rotation = 180;
-				keyLock = true;
+				moveList.push(180);
 			} else if (key === ' ') {
 				toggleGame();
 			}
+			lastKey = key;
 		}
-		lastKey = key;
 	}
 
 	function rotationToTransform(rotation: rotation): string {
@@ -250,8 +259,16 @@
 		throw new Error('[rotationToTransform] this should not happen');
 	}
 
+	function turnSnake() {
+		const nextRotation = moveList.shift();
+		if (nextRotation !== undefined) {
+			lastSnakeRotation = snake_rotation;
+			snake_rotation = nextRotation;
+		}
+	}
+
 	if (browser) {
-		setInterval(update, 400);
+		setInterval(update, 350);
 	}
 
 	draw_board();
@@ -272,20 +289,23 @@
 						{#if element.type == 'head'}
 							<img src="/zugHead.png" alt="0_0" />
 						{:else if element.type == 'body'}
-							<img src="/zugBody.png" alt="===" />
+							<img src={`/${element.metadata}.png`} alt="===" />
 						{:else if element.type == 'food'}
-							<img src="/zugBody.png" alt="===" />
+							<img src="/WagenFragezeichen.png" alt="===" />
+						{:else if element.type == 'cornerUp' && element.rotation == 180}
+							<img class="cornerUpFlipped" src={`/${element.metadata}.png`} alt="_|" />
+						{:else if element.type == 'cornerDown' && element.rotation == 180}
+							<img class="cornerDownFlipped" src={`/${element.metadata}.png`} alt="_|" />
 						{:else if element.type == 'cornerUp'}
-							<img src="zugBody.png" alt="_|" />
+							<img class="cornerUp" src={`/${element.metadata}.png`} alt="_|" />
 						{:else if element.type == 'cornerDown'}
-							<img src="zugBody.png" alt="|_" />
+							<img class="cornerDown" src={`/${element.metadata}.png`} alt="|_" />
 						{/if}
 					</div>
 				{/each}
 			</div>
 		{/each}
 	</div>
-	{lastKey}
 	{#if hasWon}
 		<div class="youwintext">You win!</div>
 	{/if}
@@ -326,7 +346,7 @@
 		position: relative;
 		display: flex;
 		justify-content: center;
-		background-color: black;
+		background-color: rgb(0, 0, 0);
 	}
 
 	.youwintext {
@@ -340,6 +360,20 @@
 		color: rgb(32, 32, 49);
 		filter: drop-shadow(0px -2px 15px rgb(255, 0, 242));
 	}
+
+	.cornerUp {
+		transform: rotate(-45deg);
+	}
+
+	.cornerDown {
+		transform: rotate(45deg);
+	}
+
+	.cornerUpFlipped {
+		transform: rotate(45deg);
+	}
+
+	.cornerDownFlipped {
+		transform: rotate(-45deg);
+	}
 </style>
-
-
