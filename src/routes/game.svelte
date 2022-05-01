@@ -327,7 +327,7 @@
 		flex-direction: column;
 		width: 100vmin;
 		height: 100vmin;
-		background-image: url("Fingselvemadebackground.png");
+		background-image: url("/Fingselvemadebackground.png");
 		justify-content: space-evenly;
 		background-size: 100%;
 
@@ -343,7 +343,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: flex-end;
-		background-image: url("UntitlesSchiene1.png");
+		background-image: url("/UntitlesSchiene1.png");
 		image-rendering: pixelated;
 		background-size: 100%;
 	}
@@ -388,13 +388,13 @@
 	}
 
 	.score {
-		font-size: 96px;
-		padding: 20px;
+		font-size: 2vw;
+		padding: 1vw;
 		height: fit-content;
 		color: #FEAE34;
 		background-color: #262B44;
-		border-radius: 10px;
-		border: 5px solid #6F5F5F;
+		border-radius: 1vw;
+		border: 1vw solid #6F5F5F;
 		font-family: 'Press Start 2P', cursive;
 	}
 </style>
