@@ -346,6 +346,7 @@
 		background-image: url("/UntitlesSchiene1.png");
 		image-rendering: pixelated;
 		background-size: 100%;
+		filter: drop-shadow(0px 0px 1px black);
 	}
 
 	img {
