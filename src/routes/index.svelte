@@ -1,6 +1,6 @@
 
 <div class="main">
-    <a href="/game"><img class="bild" src="TrickyTrainHeadlineDoneGiF.gif" alt=""></a>
+    <a href="/game"><img class="bild" src="/TrickyTrainHeadlineDoneGiF.gif" alt=""></a>
 </div>
 
 <style>
@@ -12,6 +12,6 @@
 }
 .bild {
         width: 100vmin;
-        background-image: url("Fingselvemadebackground.png");
+        background-image: url("/Fingselvemadebackground.png");
     }
-</style>
+</style> 
