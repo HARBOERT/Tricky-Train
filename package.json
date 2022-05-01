@@ -25,6 +25,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@sveltejs/adapter-netlify": "^1.0.0-next.56",
     "@types/lodash-es": "^4.17.6",
     "functional-utilities": "^1.14.1",
     "lodash-es": "^4.17.21"
